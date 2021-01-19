@@ -3,6 +3,10 @@ import websockets
 import asyncio
 import json
 
+from os import environ
+
+PORT = environ.get("PORT", 9000)
+
 USERS = {}
 GAMES = []
 
@@ -143,6 +147,7 @@ async def client(ws, path):
     await client.loop()
     await client.cleanup()
 
-start_server = websockets.serve(client, "0.0.0.0", 9000)
+start_server = websockets.serve(client, "0.0.0.0", PORT)
+print(f"Serving on port {PORT}")
 asyncio.get_event_loop().run_until_complete(start_server)
 asyncio.get_event_loop().run_forever()
